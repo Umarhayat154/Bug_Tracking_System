@@ -1,3 +1,4 @@
 from django.test import TestCase
-
-# Create your tests here.
+from .models import Bugs
+from django.contrib.auth import get_user_model
+from accounts.serializers import UserSerializer

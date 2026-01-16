@@ -1,16 +1,14 @@
-
-
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
-load_dotenv() 
+load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-xw9)#)6-a^a@jt_6b@h8amysd-65&*za2*a5tcvp&$6f_4joi-'
 
-DEBUG = True  
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -21,9 +19,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'rest_framework',
+    'accounts',
+    'projects',
+    'bugs'
 ]
 
 MIDDLEWARE = [
@@ -44,12 +45,14 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-}   
+}
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1)
-}   
+}
+CORS_ALLOW_ALL_ORIGINS = True
+
 ROOT_URLCONF = 'trackbug.urls'
 
 TEMPLATES = [
@@ -70,19 +73,18 @@ TEMPLATES = [
 WSGI_APPLICATION = 'trackbug.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME','trackbug'),
-        'USER': os.getenv('DB_USER','django_user'),
-        'PASSWORD': os.getenv('DB_PASSWORD','12345'),
+        'NAME': os.getenv('DB_NAME', 'trackbug'),
+        'USER': os.getenv('DB_USER', 'django_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '12345'),
         'HOST': os.getenv('DB_HOST', 'localhost'),
         'PORT': os.getenv('DB_PORT', '5432'),
     }
-}   
+}
 
-
+AUTH_USER_MODEL = 'accounts.User'
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -108,8 +110,8 @@ USE_I18N = True
 
 USE_TZ = True
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-# Static files (CSS, JavaScript, Images) 
-# https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
